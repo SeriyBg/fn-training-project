@@ -12,14 +12,6 @@
 # Build
 #build
 
-# Gradle
-.gradle
-.gradletasknamecache
-gradle-app.setting
-/build/
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
 # Package Files #
 *.jar
 *.war
@@ -28,6 +20,14 @@ gradle-app.setting
 *.zip
 *.tar.gz
 *.rar
+
+# Gradle
+.gradle
+.gradletasknamecache
+gradle-app.setting
+/build/
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

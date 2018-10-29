@@ -2,6 +2,7 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.IpAddress;
 import com.training.fnsrv.model.IpInterface;
+import lombok.extern.java.Log;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Log
 public class IpInterfaceTask extends Task {
     private final String COMMAND = "ifconfig";
 
@@ -47,7 +49,8 @@ public class IpInterfaceTask extends Task {
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            System.out.println(line);
+
+            log.info(line);
 
             if (intf.getName() == null) {
                 matcher = namePattern.matcher(line);
@@ -99,6 +102,6 @@ public class IpInterfaceTask extends Task {
             }
         }
         //XXX: debug only. Use DB
-        System.out.println(Arrays.toString(intfList.toArray()));
+        log.info(Arrays.toString(intfList.toArray()));
     }
 }

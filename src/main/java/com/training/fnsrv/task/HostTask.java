@@ -2,9 +2,11 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.Host;
 import com.training.fnsrv.sshclient.SshClient;
+import lombok.extern.java.Log;
 
 import java.util.Iterator;
 
+@Log
 public class HostTask extends Task {
     private SshClient ssh;
 
@@ -27,7 +29,7 @@ public class HostTask extends Task {
 
             ssh.exec(task.getCmd(), task);
             task.setStatus(TaskStatus.DONE);
-            System.out.printf("RUN task  parentid: %d; id: %d\n", task.getParentId(), task.getId());
+            log.info(String.format("RUN task with parentid='%d'; id='%d'", task.getParentId(), task.getId()));
         }
         ssh.disconnect();
     }

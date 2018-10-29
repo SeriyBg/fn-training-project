@@ -8,7 +8,9 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.training.fnsrv.utils.Collector;
+import lombok.extern.java.Log;
 
+@Log
 public class SshClient {
     private JSch ssh;
     private Session session;
@@ -23,7 +25,7 @@ public class SshClient {
         this.host = host;
         this.user = user;
         this.password = password;
-        System.out.printf("SshClient:<constructor> host: %s; user: %s; password: %s\n", host, user, password);
+        log.info(String.format("sshClient parameters: host: '%s'; user: '%s'; password: '%s'", host, user, password));
     }
 
     public void connect() {
@@ -37,8 +39,7 @@ public class SshClient {
             session.setConfig(config);
 
             session.connect();
-
-            System.out.printf("ssh connected '%s' by '%s'\n", user, host);
+            log.info(String.format("sshClient connected '%s' by '%s'", user, host));
         }
         catch (Exception e) {
             e.printStackTrace();

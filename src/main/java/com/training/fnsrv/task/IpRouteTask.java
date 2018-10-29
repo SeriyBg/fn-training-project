@@ -1,8 +1,11 @@
 package com.training.fnsrv.task;
 
+import lombok.extern.java.Log;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
+@Log
 public class IpRouteTask extends Task {
     private final String COMMAND = "route";
 
@@ -20,7 +23,7 @@ public class IpRouteTask extends Task {
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            System.out.println(line);
+            log.info(line);
         }
     }
 }

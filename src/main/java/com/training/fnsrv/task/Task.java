@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Data
+@Log
 public abstract class Task implements Runnable, Collector {
     private Long id;
     private Long parentId;
@@ -36,10 +38,10 @@ public abstract class Task implements Runnable, Collector {
     }
 
     public void collect(InputStream inputStream) {
-        System.out.printf("Task:<collect> \n");
+        log.info("Default collect method");
     }
 
     public void run() {
-        System.out.printf("Task:<run> id: %s", getId());
+        log.info(String.format("Default run method. Task id='%s'", getId()));
     }
 }

@@ -36,4 +36,5 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
     apt "org.projectlombok:lombok:1.18.2"
     compile group: 'com.jcraft', name: 'jsch', version: '0.1.54'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }

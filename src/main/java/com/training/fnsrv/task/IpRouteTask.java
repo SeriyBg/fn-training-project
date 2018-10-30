@@ -1,16 +1,19 @@
 package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.IpRoute;
+import com.training.fnsrv.service.DBService;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 @Log
 public class IpRouteTask extends Task {
+    @Autowired
+    private DBService db;
+
     private final String COMMAND = "route";
     private final int TOKEN_NUM = 8;
 
@@ -25,9 +28,6 @@ public class IpRouteTask extends Task {
     }
 
     public void collect(InputStream inputStream) {
-        //XXX: debug only. Use DB
-        List<IpRoute>  routeList = new ArrayList<>();
-
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
@@ -45,18 +45,18 @@ public class IpRouteTask extends Task {
 
             IpRoute.Builder routeTableLine = new IpRoute.Builder();
             routeTableLine.
+                    reqId(getId()).
                     destination(tokens[0]).
                     gateway(tokens[1]).
                     genmask(tokens[2]).
                     flags(tokens[3]).
                     metric(Integer.parseInt(tokens[4])).
                     refs(Integer.parseInt(tokens[5])).
-                    use(Integer.parseInt(tokens[6]));
-                    //TODO: add iface(). from IpInterface table;
+                    use(Integer.parseInt(tokens[6])).
+                    iface(db.getIpInterfacesByIdAndName(getId(), tokens[7]));
 
-            routeList.add(routeTableLine.build());
+            db.saveIpRoute(routeTableLine.build());
         }
-        //XXX: debug only. Use DB
-        log.info(Arrays.toString(routeList.toArray()));
+        log.info(Arrays.toString(db.getAllIpRoutesById(getId()).toArray()));
     }
 }

@@ -1,13 +1,20 @@
 package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.Host;
+import com.training.fnsrv.service.DBService;
 import com.training.fnsrv.sshclient.SshClient;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.util.Iterator;
 
 @Log
 public class HostTask extends Task {
+    @Autowired
+    private DBService db;
+    @Autowired
+    private ApplicationContext applicationContext;
     private SshClient ssh;
 
     public HostTask(Host host) {
@@ -15,8 +22,17 @@ public class HostTask extends Task {
 
         ssh = new SshClient(host.getAddr(), host.getUser(), host.getPassword());
 
-        addNextTask(new IpInterfaceTask(1L));
-        addNextTask(new IpRouteTask(2L));
+    }
+
+    public void init() {
+        /* TODO: Try to find better way to add beans for objects which are manually created with 'new' */
+        IpInterfaceTask ipInterfaceTask = new IpInterfaceTask(getId());
+        applicationContext.getAutowireCapableBeanFactory().autowireBean(ipInterfaceTask);
+        addNextTask(ipInterfaceTask);
+
+        IpRouteTask ipRouteTask = new IpRouteTask(getId());
+        applicationContext.getAutowireCapableBeanFactory().autowireBean(ipRouteTask);
+        addNextTask(ipRouteTask);
     }
 
     @Override

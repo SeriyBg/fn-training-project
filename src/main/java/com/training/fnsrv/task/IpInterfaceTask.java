@@ -2,18 +2,21 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.IpAddress;
 import com.training.fnsrv.model.IpInterface;
+import com.training.fnsrv.service.DBService;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log
 public class IpInterfaceTask extends Task {
+    @Autowired
+    private DBService db;
+
     private final String COMMAND = "ifconfig";
 
     private final String NAME_PATTERN = "^[\\w]+";
@@ -33,9 +36,6 @@ public class IpInterfaceTask extends Task {
     }
 
     public void collect(InputStream inputStream) {
-        //XXX: debug only. Use DB
-        List<IpInterface> intfList = new ArrayList<>();
-
         Pattern namePattern = Pattern.compile(NAME_PATTERN);
         Pattern macPattern = Pattern.compile(MAC_PATTERN);
         Pattern ipaddrPattern = Pattern.compile(IPADDR_PATTERN);
@@ -49,10 +49,10 @@ public class IpInterfaceTask extends Task {
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-
             log.info(line);
 
             if (intf.getName() == null) {
+
                 matcher = namePattern.matcher(line);
                 if (matcher.find()) {
                     /* Skip localhost interface */
@@ -94,14 +94,14 @@ public class IpInterfaceTask extends Task {
             }
 
             if (line.isEmpty() && intf.getName() != null) {
-                intfList.add(intf.build());
+                intf.reqId(getId());
+                db.saveIpInterface(intf.build());
                 if (scanner.hasNext()) {
                     intf = new IpInterface.Builder();
                     ipaddr = new IpAddress.Builder();
                 }
             }
         }
-        //XXX: debug only. Use DB
-        log.info(Arrays.toString(intfList.toArray()));
+        log.info(Arrays.toString(db.getAllIpInterfacesById(getId()).toArray()));
     }
 }

@@ -1,6 +1,7 @@
 package com.training.fnsrv.controller;
 
 import com.training.fnsrv.model.Host;
+import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.model.HostResponse;
 import com.training.fnsrv.service.HostService;
 
@@ -16,8 +17,8 @@ public class HostController {
     HostService hostService;
 
     @RequestMapping(value = "/host/get_info/", method = RequestMethod.POST)
-    public ResponseEntity<HostResponse> addRoute(@RequestBody Host host) {
-        HostResponse resp = hostService.getHostInterfaceRoute(host);
+    public ResponseEntity<HostResponse> addRoute(@RequestBody HostRequest hostReq) {
+        HostResponse resp = hostService.getHostInterfaceRoute(hostReq);
 
         return new ResponseEntity<HostResponse>(resp, HttpStatus.OK);
     }

@@ -1,6 +1,7 @@
 package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.Host;
+import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.service.DBService;
 import com.training.fnsrv.sshclient.SshClient;
 import lombok.extern.java.Log;
@@ -17,10 +18,10 @@ public class HostTask extends Task {
     private ApplicationContext applicationContext;
     private SshClient ssh;
 
-    public HostTask(Host host) {
+    public HostTask(HostRequest hostReq) {
         setId(TaskExecutor.genNewTaskId());
 
-        ssh = new SshClient(host.getAddr(), host.getUser(), host.getPassword());
+        ssh = new SshClient(hostReq.getAddr(), hostReq.getUser(), hostReq.getPassword());
 
     }
 

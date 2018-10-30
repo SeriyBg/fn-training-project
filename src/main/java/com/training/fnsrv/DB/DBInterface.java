@@ -15,5 +15,6 @@ public interface DBInterface {
     List<IpInterface> getAllIpInterfacesById(Long id);
 
     void saveIpRoute(IpRoute ipRoute);
+    List<IpRoute> getAllIpRoutes();
     List<IpRoute> getAllIpRoutesById(Long id);
 }

@@ -79,6 +79,10 @@ public class MemoryDB implements DBInterface {
         saveRecord(ipRoute, routeTable);
     }
 
+    public List<IpRoute> getAllIpRoutes() {
+        return routeTable;
+    }
+
     public List<IpRoute> getAllIpRoutesById(Long id) {
         return _getAllIpInterfacesById(id, routeTable);
     }

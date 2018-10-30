@@ -42,6 +42,10 @@ public class DBService {
         db.saveIpRoute(ipRoute);
     }
 
+    public List<IpRoute> getAllIpRoutes() {
+        return db.getAllIpRoutes();
+    }
+
     public List<IpRoute> getAllIpRoutesById(Long id){
         return db.getAllIpRoutesById(id);
     }

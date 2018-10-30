@@ -1,16 +1,15 @@
 package com.training.fnsrv.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@ToString
 public class IpInterface {
-    @Setter(AccessLevel.NONE) private String name;
-    @Setter(AccessLevel.NONE) private String macAddress;
-    @Setter(AccessLevel.NONE) private IpAddress ipAddress;
-    @Setter(AccessLevel.NONE) private int MTU;
+    private String name;
+    private String macAddress;
+    private IpAddress ipAddress;
+    private int MTU;
 
     private IpInterface(Builder builder) {
         name = builder.name;

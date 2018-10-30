@@ -1,14 +1,13 @@
 package com.training.fnsrv.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@ToString
 public class IpAddress {
-    @Setter(AccessLevel.NONE) private String addr;
-    @Setter(AccessLevel.NONE) private String netmask;
+    private String addr;
+    private String netmask;
 
     private IpAddress(Builder builder) {
         addr = builder.addr;

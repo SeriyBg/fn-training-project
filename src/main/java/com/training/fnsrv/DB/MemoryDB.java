@@ -46,7 +46,8 @@ public class MemoryDB implements DBInterface {
         }
 
         //TODO: new Host or null?
-        return new Host();
+        Host.Builder newHost = new Host.Builder();
+        return newHost.build();
     }
 
     public void saveIpInterface(IpInterface ipInterface) {

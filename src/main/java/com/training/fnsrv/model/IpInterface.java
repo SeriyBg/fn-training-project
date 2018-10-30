@@ -5,13 +5,14 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class IpInterface {
+public class IpInterface extends GenModel {
     private String name;
     private String macAddress;
     private IpAddress ipAddress;
     private int MTU;
 
     private IpInterface(Builder builder) {
+        reqId = builder.reqId;
         name = builder.name;
         macAddress = builder.macAddress;
         ipAddress = builder.ipAddress;
@@ -19,6 +20,7 @@ public class IpInterface {
     }
 
     public static class Builder {
+        @Getter private Long reqId;
         @Getter private String name;
         @Getter private String macAddress;
         @Getter private IpAddress ipAddress;
@@ -26,6 +28,11 @@ public class IpInterface {
 
         public IpInterface build() {
             return new IpInterface(this);
+        }
+
+        public Builder reqId(Long reqId) {
+            this.reqId = reqId;
+            return this;
         }
 
         public Builder name(String name) {

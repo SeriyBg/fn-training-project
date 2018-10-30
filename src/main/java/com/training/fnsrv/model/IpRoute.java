@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class IpRoute {
+public class IpRoute extends GenModel {
     private String destination;
     private String gateway;
     private String genmask;
@@ -16,6 +16,7 @@ public class IpRoute {
     private IpInterface iface;
 
     private IpRoute(Builder builder) {
+        reqId = builder.reqId;
         destination = builder.destination;
         gateway = builder.gateway;
         genmask = builder.genmask;
@@ -27,6 +28,7 @@ public class IpRoute {
     }
 
     public static class Builder {
+        private Long reqId;
         private String destination;
         private String gateway;
         private String genmask;
@@ -38,6 +40,11 @@ public class IpRoute {
 
         public IpRoute build() {
             return new IpRoute(this);
+        }
+
+        public Builder reqId(Long reqId) {
+            this.reqId = reqId;
+            return this;
         }
 
         public Builder destination(String destination) {

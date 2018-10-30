@@ -54,6 +54,10 @@ public class MemoryDB implements DBInterface {
         saveRecord(ipInterface, intfTable);
     }
 
+    public List<IpInterface> getAllIpInterfaces() {
+        return intfTable;
+    }
+
     public List<IpInterface> getAllIpInterfacesById(Long id) {
         return _getAllIpInterfacesById(id, intfTable);
     }

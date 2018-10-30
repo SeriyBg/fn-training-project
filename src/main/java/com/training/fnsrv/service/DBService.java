@@ -26,6 +26,10 @@ public class DBService {
         db.saveIpInterface(ipInterface);
     }
 
+    public List<IpInterface> getAllIpInterfaces() {
+        return db.getAllIpInterfaces();
+    }
+
     public List<IpInterface> getAllIpInterfacesById(Long id) {
         return db.getAllIpInterfacesById(id);
     }

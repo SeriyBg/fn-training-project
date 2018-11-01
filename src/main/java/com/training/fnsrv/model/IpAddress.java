@@ -3,11 +3,20 @@ package com.training.fnsrv.model;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
+
 @Getter
 @ToString
-public class IpAddress {
+@Entity
+@Table(name = "ip_address")
+public class IpAddress extends GenModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String addr;
     private String netmask;
+
+    private IpAddress() {}
 
     private IpAddress(Builder builder) {
         addr = builder.addr;

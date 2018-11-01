@@ -2,7 +2,7 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.IpAddress;
 import com.training.fnsrv.model.IpInterface;
-import com.training.fnsrv.service.DBService;
+import com.training.fnsrv.service.IpInterfaceService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @Log
 public class IpInterfaceTask extends Task {
     @Autowired
-    private DBService db;
+    private IpInterfaceService ipInterfaceService;
 
     private final String COMMAND = "ifconfig";
 
@@ -82,7 +82,6 @@ public class IpInterfaceTask extends Task {
                 matcher = netmaskPattern.matcher(line);
                 if (matcher.find()) {
                     ipaddr.netmask(matcher.group(1));
-                    intf.ipAddress(ipaddr.build());
                 }
             }
 
@@ -95,13 +94,14 @@ public class IpInterfaceTask extends Task {
 
             if (line.isEmpty() && intf.getName() != null) {
                 intf.reqId(getId());
-                db.saveIpInterface(intf.build());
+                intf.ipAddress(ipaddr.build());
+                ipInterfaceService.save(intf.build());
                 if (scanner.hasNext()) {
                     intf = new IpInterface.Builder();
                     ipaddr = new IpAddress.Builder();
                 }
             }
         }
-        log.info(Arrays.toString(db.getAllIpInterfacesById(getId()).toArray()));
+        log.info(Arrays.toString(ipInterfaceService.getById(getId()).toArray()));
     }
 }

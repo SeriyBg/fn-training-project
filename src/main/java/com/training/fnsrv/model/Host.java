@@ -3,12 +3,21 @@ package com.training.fnsrv.model;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
+
 @Getter
 @ToString
+@Entity
+@Table(name = "host")
 public class Host extends GenModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String ipAddress;
     private String user;
     private String password;
+
+    public Host() {}
 
     private Host(Builder builder) {
         reqId = builder.reqId;

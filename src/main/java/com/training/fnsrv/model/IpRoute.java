@@ -3,17 +3,30 @@ package com.training.fnsrv.model;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
+
 @Getter
 @ToString
+@Entity
+@Table(name = "ip_route")
 public class IpRoute extends GenModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String destination;
     private String gateway;
     private String genmask;
     private String flags;
     private int metric;
     private int refs;
-    private int use;
+    /* TODO: if enable 'use' variable hibernate crash with next message:
+     *      org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement
+     */
+    //private int use;
+    @OneToOne
     private IpInterface iface;
+
+    public IpRoute() {}
 
     private IpRoute(Builder builder) {
         reqId = builder.reqId;
@@ -23,7 +36,7 @@ public class IpRoute extends GenModel {
         flags = builder.flags;
         metric = builder.metric;
         refs = builder.refs;
-        use = builder.use;
+        //use = builder.use;
         iface = builder.iface;
     }
 

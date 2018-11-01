@@ -3,13 +3,23 @@ package com.training.fnsrv.model;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.persistence.*;
+
 @Getter
 @ToString
+@Entity
+@Table(name = "ip_interface")
 public class IpInterface extends GenModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private String macAddress;
+    @OneToOne
     private IpAddress ipAddress;
     private int MTU;
+
+    public IpInterface() {}
 
     private IpInterface(Builder builder) {
         reqId = builder.reqId;

@@ -2,7 +2,7 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.Host;
 import com.training.fnsrv.model.HostRequest;
-import com.training.fnsrv.service.DBService;
+import com.training.fnsrv.service.HostService;
 import com.training.fnsrv.sshclient.SshClient;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,14 @@ import java.util.Iterator;
 @Log
 public class HostTask extends Task {
     @Autowired
-    private DBService db;
+    HostService hostService;
     @Autowired
     private ApplicationContext applicationContext;
     private SshClient ssh;
+    private HostRequest hostReq;
 
-    public HostTask(HostRequest hostReq) {
+    public HostTask(HostRequest req) {
+        hostReq = req;
         setId(TaskExecutor.genNewTaskId());
 
         ssh = new SshClient(hostReq.getAddr(), hostReq.getUser(), hostReq.getPassword());
@@ -34,6 +36,14 @@ public class HostTask extends Task {
         IpRouteTask ipRouteTask = new IpRouteTask(getId());
         applicationContext.getAutowireCapableBeanFactory().autowireBean(ipRouteTask);
         addNextTask(ipRouteTask);
+
+        Host.Builder host = new Host.Builder();
+        host.reqId(getId()).
+                ipAddress(hostReq.getAddr()).
+                user(hostReq.getUser()).
+                password(hostReq.getPassword());
+
+        hostService.save(host.build());
     }
 
     @Override

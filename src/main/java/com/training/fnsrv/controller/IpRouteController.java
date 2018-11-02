@@ -15,19 +15,19 @@ import java.util.List;
 @RestController
 public class IpRouteController {
     @Autowired
-    IpRouteService ipRouteService;
+    private IpRouteService ipRouteService;
 
     @RequestMapping(value = "/routes/all/", method = RequestMethod.GET)
     public ResponseEntity<List<IpRoute>> getAllIpRoutes() {
         List<IpRoute> routes = ipRouteService.getAll();
 
-        return new ResponseEntity<List<IpRoute>>(routes, HttpStatus.OK);
+        return new ResponseEntity<>(routes, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/routes/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<IpRoute>> getById(@PathVariable String id) {
         List<IpRoute> routes = ipRouteService.getById(Long.valueOf(id));
 
-        return new ResponseEntity<List<IpRoute>>(routes, HttpStatus.OK);
+        return new ResponseEntity<>(routes, HttpStatus.OK);
     }
 }

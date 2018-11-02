@@ -9,12 +9,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Component
 @Log
 public class TaskExecutor {
-    private static Long ids;
+    private static Long ids = 0L;
     private final ThreadPoolExecutor executor;
-
-    static {
-        ids = 0L;
-    }
 
     public TaskExecutor() {
         executor = (ThreadPoolExecutor)Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());

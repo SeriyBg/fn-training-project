@@ -1,4 +1,4 @@
-package com.training.fnsrv.Dao;
+package com.training.fnsrv.dao;
 
 import com.training.fnsrv.model.Host;
 import org.springframework.data.repository.CrudRepository;

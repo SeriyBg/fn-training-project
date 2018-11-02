@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.Dao.IpRouteDao;
+import com.training.fnsrv.dao.IpRouteDao;
 import com.training.fnsrv.model.IpRoute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class IpRouteService {
     @Autowired
-    IpRouteDao ipRouteDao;
+    private IpRouteDao ipRouteDao;
 
     public void save(IpRoute ipRoute) {
         ipRouteDao.save(ipRoute);

@@ -1,4 +1,4 @@
-package com.training.fnsrv.Dao;
+package com.training.fnsrv.dao;
 
 import com.training.fnsrv.model.IpInterface;
 import org.springframework.data.repository.CrudRepository;

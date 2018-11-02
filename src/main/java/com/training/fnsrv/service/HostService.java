@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.Dao.HostDao;
+import com.training.fnsrv.dao.HostDao;
 import com.training.fnsrv.model.Host;
 import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.model.HostResponse;

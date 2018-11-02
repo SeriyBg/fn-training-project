@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.Dao.IpInterfaceDao;
+import com.training.fnsrv.dao.IpInterfaceDao;
 import com.training.fnsrv.model.IpInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +11,9 @@ import java.util.List;
 @Service
 public class IpInterfaceService {
     @Autowired
-    IpInterfaceDao ipInterfaceDao;
+    private IpInterfaceDao ipInterfaceDao;
     @Autowired
-    IpAddressService ipAddressService;
+    private IpAddressService ipAddressService;
 
     //TODO: A lot of boilerplate code
     public void save(IpInterface ipInterface) {
@@ -49,5 +49,4 @@ public class IpInterfaceService {
         //TODO: null or new IpInterface?
         return null;
     }
-
 }

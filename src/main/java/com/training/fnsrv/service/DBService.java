@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class DBService {
     @Autowired
-    MemoryDB db;
+    private MemoryDB db;
 
     public void saveHost(Host host) {
         db.saveHost(host);

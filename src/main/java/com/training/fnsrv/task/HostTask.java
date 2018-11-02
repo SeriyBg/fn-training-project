@@ -13,7 +13,7 @@ import java.util.Iterator;
 @Log
 public class HostTask extends Task {
     @Autowired
-    HostService hostService;
+    private HostService hostService;
     @Autowired
     private ApplicationContext applicationContext;
     private SshClient ssh;

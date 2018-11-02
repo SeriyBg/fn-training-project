@@ -15,18 +15,11 @@ import java.util.List;
 @Data
 @Log
 public abstract class Task implements Runnable, Collector {
-    private Long id;
-    private Long parentId;
-    private TaskStatus status;
+    private Long id = 0L;
+    private Long parentId = 0L;
+    private TaskStatus status = TaskStatus.NEW;
     private String cmd;
-    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE) private List<Task> subTasks;
-
-    {
-        id = 0L;
-        parentId = 0L;
-        status = TaskStatus.NEW;
-        subTasks = new ArrayList<>();
-    }
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE) private List<Task> subTasks = new ArrayList<>();
 
     protected void addNextTask(Task newTask) {
         newTask.setParentId(id);

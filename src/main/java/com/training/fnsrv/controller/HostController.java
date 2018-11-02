@@ -1,6 +1,5 @@
 package com.training.fnsrv.controller;
 
-import com.training.fnsrv.model.Host;
 import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.model.HostResponse;
 import com.training.fnsrv.service.HostService;
@@ -12,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HostController {
-
     @Autowired
-    HostService hostService;
+    private HostService hostService;
 
     @RequestMapping(value = "/host/get_info/", method = RequestMethod.POST)
     public ResponseEntity<HostResponse> addRoute(@RequestBody HostRequest hostReq) {
         HostResponse resp = hostService.getHostInterfaceRoute(hostReq);
 
-        return new ResponseEntity<HostResponse>(resp, HttpStatus.OK);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

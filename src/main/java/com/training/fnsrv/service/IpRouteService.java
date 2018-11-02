@@ -14,24 +14,18 @@ public class IpRouteService {
     private IpRouteDao ipRouteDao;
 
     public void save(IpRoute ipRoute) {
-        ipRouteDao.save(ipRoute);
+        try {
+            ipRouteDao.save(ipRoute);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //TODO: boilerplate code
     public List<IpRoute> getAll() {
         List<IpRoute> routeList = new ArrayList<>();
         for (IpRoute route : ipRouteDao.findAll()) {
             routeList.add(route);
-        }
-        return routeList;
-    }
-
-    public List<IpRoute> getById(Long id) {
-        List<IpRoute> routeList = new ArrayList<>();
-        for (IpRoute route : ipRouteDao.findAll()) {
-            if (route.getReqId() == id) {
-                routeList.add(route);
-            }
         }
         return routeList;
     }

@@ -15,10 +15,14 @@ public class IpInterfaceService {
     @Autowired
     private IpAddressService ipAddressService;
 
-    //TODO: A lot of boilerplate code
     public void save(IpInterface ipInterface) {
-        ipAddressService.save(ipInterface.getIpAddress());
-        ipInterfaceDao.save(ipInterface);
+        try {
+            ipAddressService.save(ipInterface.getIpAddress());
+            ipInterfaceDao.save(ipInterface);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<IpInterface> getAll() {
@@ -27,26 +31,5 @@ public class IpInterfaceService {
             intfList.add(intf);
         }
         return intfList;
-    }
-
-    public List<IpInterface> getById(Long id) {
-        List<IpInterface> intfList = new ArrayList<>();
-        for (IpInterface intf : ipInterfaceDao.findAll()) {
-            if (intf.getReqId() == id) {
-                intfList.add(intf);
-            }
-        }
-        return intfList;
-    }
-
-    public IpInterface getByIdAndName(Long id, String name) {
-        for (IpInterface intf : ipInterfaceDao.findAll()) {
-            if (intf.getName().equals(name)) {
-                return intf;
-            }
-        }
-
-        //TODO: null or new IpInterface?
-        return null;
     }
 }

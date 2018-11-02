@@ -4,50 +4,41 @@ import com.training.fnsrv.model.Host;
 import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.service.HostService;
 import com.training.fnsrv.sshclient.SshClient;
+import lombok.Getter;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 import java.util.Iterator;
 
 @Log
 public class HostTask extends Task {
-    @Autowired
-    private HostService hostService;
-    @Autowired
-    private ApplicationContext applicationContext;
+    @Getter private HostService hostService;
     private SshClient ssh;
     private HostRequest hostReq;
+    @Getter private Host.Builder hostBuilder;
 
-    public HostTask(HostRequest req) {
+    public HostTask(HostRequest req, HostService service) {
         hostReq = req;
+        hostService = service;
         setId(TaskExecutor.genNewTaskId());
 
         ssh = new SshClient(hostReq.getAddr(), hostReq.getUser(), hostReq.getPassword());
 
-    }
+        hostBuilder = new Host.Builder();
 
-    public void init() {
-        /* TODO: Try to find better way to add beans for objects which are manually created with 'new' */
-        IpInterfaceTask ipInterfaceTask = new IpInterfaceTask(getId());
-        applicationContext.getAutowireCapableBeanFactory().autowireBean(ipInterfaceTask);
+        IpInterfaceTask ipInterfaceTask = new IpInterfaceTask(getId(), this);
         addNextTask(ipInterfaceTask);
 
-        IpRouteTask ipRouteTask = new IpRouteTask(getId());
-        applicationContext.getAutowireCapableBeanFactory().autowireBean(ipRouteTask);
+        IpRouteTask ipRouteTask = new IpRouteTask(getId(), this);
         addNextTask(ipRouteTask);
-
-        Host.Builder host = new Host.Builder();
-        host.reqId(getId()).
-                ipAddress(hostReq.getAddr()).
-                user(hostReq.getUser()).
-                password(hostReq.getPassword());
-
-        hostService.save(host.build());
     }
 
     @Override
     public void run() {
+        hostBuilder.requestId(getId()).
+                ipAddress(hostReq.getAddr()).
+                user(hostReq.getUser()).
+                password(hostReq.getPassword());
+
         ssh.connect();
 
         Iterator<Task> iter = iterator();

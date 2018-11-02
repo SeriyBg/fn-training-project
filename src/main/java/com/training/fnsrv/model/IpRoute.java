@@ -29,7 +29,6 @@ public class IpRoute extends GenModel {
     public IpRoute() {}
 
     private IpRoute(Builder builder) {
-        reqId = builder.reqId;
         destination = builder.destination;
         gateway = builder.gateway;
         genmask = builder.genmask;
@@ -41,7 +40,6 @@ public class IpRoute extends GenModel {
     }
 
     public static class Builder {
-        private Long reqId;
         private String destination;
         private String gateway;
         private String genmask;
@@ -53,11 +51,6 @@ public class IpRoute extends GenModel {
 
         public IpRoute build() {
             return new IpRoute(this);
-        }
-
-        public Builder reqId(Long reqId) {
-            this.reqId = reqId;
-            return this;
         }
 
         public Builder destination(String destination) {

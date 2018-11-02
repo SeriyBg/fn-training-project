@@ -1,33 +1,31 @@
 package com.training.fnsrv.task;
 
+import com.training.fnsrv.model.IpInterface;
 import com.training.fnsrv.model.IpRoute;
-import com.training.fnsrv.service.IpInterfaceService;
-import com.training.fnsrv.service.IpRouteService;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 
 @Log
 public class IpRouteTask extends Task {
-    @Autowired
-    private IpInterfaceService ipInterfaceService;
-    @Autowired
-    private IpRouteService ipRouteService;
-
+    private HostTask hostTask;
     private final String COMMAND = "route";
     private final int TOKEN_NUM = 8;
 
-    IpRouteTask() {
-        setId(TaskExecutor.genNewTaskId());
+    IpRouteTask(Long id, HostTask hostTask) {
+        this.hostTask = hostTask;
+        setId(id);
         setCmd(COMMAND);
     }
 
-    IpRouteTask(Long id) {
-        setId(id);
-        setCmd(COMMAND);
+    private IpInterface getIpInterfaceByName(String name) {
+        for (IpInterface intf : hostTask.getHostBuilder().getIpInterfaces()) {
+            if (intf.getName().equals(name)) {
+                return intf;
+            }
+        }
+        return null;
     }
 
     public void collect(InputStream inputStream) {
@@ -48,7 +46,6 @@ public class IpRouteTask extends Task {
 
             IpRoute.Builder routeTableLine = new IpRoute.Builder();
             routeTableLine.
-                    reqId(getId()).
                     destination(tokens[0]).
                     gateway(tokens[1]).
                     genmask(tokens[2]).
@@ -56,10 +53,12 @@ public class IpRouteTask extends Task {
                     metric(Integer.parseInt(tokens[4])).
                     refs(Integer.parseInt(tokens[5])).
                     use(Integer.parseInt(tokens[6])).
-                    iface(ipInterfaceService.getByIdAndName(getId(), tokens[7]));
+                    iface(getIpInterfaceByName(tokens[7]));
 
-            ipRouteService.save(routeTableLine.build());
+            hostTask.getHostBuilder().
+                    ipRoutes(routeTableLine.build());
         }
-        log.info(Arrays.toString(ipRouteService.getById(getId()).toArray()));
+        hostTask.getHostService().
+                save(hostTask.getHostBuilder().build());
     }
 }

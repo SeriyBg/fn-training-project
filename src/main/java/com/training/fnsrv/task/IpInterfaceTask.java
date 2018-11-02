@@ -2,40 +2,31 @@ package com.training.fnsrv.task;
 
 import com.training.fnsrv.model.IpAddress;
 import com.training.fnsrv.model.IpInterface;
-import com.training.fnsrv.service.IpInterfaceService;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log
 public class IpInterfaceTask extends Task {
-    @Autowired
-    private IpInterfaceService ipInterfaceService;
-
+    private HostTask hostTask;
     private final String COMMAND = "ifconfig";
-
     private final String NAME_PATTERN = "^[\\w]+";
     private final String MAC_PATTERN = "HWaddr\\s+([0-9a-fA-F:-]+)";
     private final String IPADDR_PATTERN = "inet addr:([0-9.]+)";
     private final String NETMASK_PATTERN = "Mask:([0-9.]+)";
     private final String MTU_PATTERN = "MTU:([0-9.]+)";
 
-    IpInterfaceTask() {
-        setId(TaskExecutor.genNewTaskId());
-        setCmd(COMMAND);
-    }
-
-    IpInterfaceTask(Long id) {
+    IpInterfaceTask(Long id, HostTask hostTask) {
+        this.hostTask = hostTask;
         setId(id);
         setCmd(COMMAND);
     }
 
     public void collect(InputStream inputStream) {
+        //TODO: make this patterns static final;
         Pattern namePattern = Pattern.compile(NAME_PATTERN);
         Pattern macPattern = Pattern.compile(MAC_PATTERN);
         Pattern ipaddrPattern = Pattern.compile(IPADDR_PATTERN);
@@ -93,15 +84,14 @@ public class IpInterfaceTask extends Task {
             }
 
             if (line.isEmpty() && intf.getName() != null) {
-                intf.reqId(getId());
                 intf.ipAddress(ipaddr.build());
-                ipInterfaceService.save(intf.build());
+                hostTask.getHostBuilder().ipInterfaces(intf.build());
                 if (scanner.hasNext()) {
                     intf = new IpInterface.Builder();
                     ipaddr = new IpAddress.Builder();
                 }
             }
         }
-        log.info(Arrays.toString(ipInterfaceService.getById(getId()).toArray()));
+        //TODO: run ipRouteTask
     }
 }

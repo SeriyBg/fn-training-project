@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @ToString
@@ -13,31 +15,45 @@ public class Host extends GenModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long requestId;
     private String ipAddress;
     private String user;
     private String password;
+    @OneToMany
+    private List<IpInterface> ipInterfaces;
+    @OneToMany
+    private List<IpRoute> ipRoutes;
 
     public Host() {}
 
     private Host(Builder builder) {
-        reqId = builder.reqId;
+        requestId = builder.requestId;
         ipAddress = builder.ipAddress;
         user = builder.user;
         password = builder.password;
+        ipInterfaces = builder.ipInterfaces;
+        ipRoutes = builder.ipRoutes;
     }
 
     public static class Builder {
-        private Long reqId;
+        private Long requestId;
         private String ipAddress;
         private String user;
         private String password;
+        @Getter private List<IpInterface> ipInterfaces;
+        private List<IpRoute> ipRoutes;
+
+        public Builder() {
+            ipInterfaces = new ArrayList<>();
+            ipRoutes = new ArrayList<>();
+        }
 
         public Host build() {
             return new Host(this);
         }
 
-        public Builder reqId(Long reqId) {
-            this.reqId = reqId;
+        public Builder requestId(Long requestId) {
+            this.requestId = requestId;
             return this;
         }
 
@@ -53,6 +69,16 @@ public class Host extends GenModel {
 
         public Builder password(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder ipInterfaces(IpInterface ipInterface) {
+            this.ipInterfaces.add(ipInterface);
+            return this;
+        }
+
+        public Builder ipRoutes(IpRoute ipRoute) {
+            this.ipRoutes.add(ipRoute);
             return this;
         }
     }

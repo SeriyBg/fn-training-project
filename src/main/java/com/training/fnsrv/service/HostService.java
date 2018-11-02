@@ -1,29 +1,28 @@
 package com.training.fnsrv.service;
 
 import com.training.fnsrv.dao.HostDao;
-import com.training.fnsrv.model.Host;
-import com.training.fnsrv.model.HostRequest;
-import com.training.fnsrv.model.HostResponse;
+import com.training.fnsrv.model.*;
 import com.training.fnsrv.task.HostTask;
 import com.training.fnsrv.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HostService {
     @Autowired
     private TaskExecutor taskExecutor;
     @Autowired
-    private ApplicationContext applicationContext;
-    @Autowired
     private HostDao hostDao;
+    @Autowired
+    private IpInterfaceService ipInterfaceService;
+    @Autowired
+    private IpRouteService ipRouteService;
 
     public HostResponse getHostInterfaceRoute(HostRequest hostReq) {
-        HostTask hostTask = new HostTask(hostReq);
-        /* TODO: Try to find better way to add beans for objects manually created with 'new' */
-        applicationContext.getAutowireCapableBeanFactory().autowireBean(hostTask);
-        hostTask.init();
+        HostTask hostTask = new HostTask(hostReq, this);
         taskExecutor.executeTask(hostTask);
 
         HostResponse resp = new HostResponse();
@@ -34,14 +33,25 @@ public class HostService {
     }
 
     public void save(Host host) {
-        hostDao.save(host);
+        try {
+            for (IpInterface intf: host.getIpInterfaces()) {
+                ipInterfaceService.save(intf);
+            }
+            for (IpRoute route: host.getIpRoutes()) {
+                ipRouteService.save(route);
+            }
+            hostDao.save(host);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public Host getByIpAddress(String ipAddress) {
-        return hostDao.findByIpAddress(ipAddress);
-    }
-
-    public Host getByUser(String user) {
-        return hostDao.findByUser(user);
+    public List<Host> getAll() {
+        List<Host> hosts = new ArrayList<>();
+        for (Host host : hostDao.findAll()) {
+            hosts.add(host);
+        }
+        return hosts;
     }
 }

@@ -11,6 +11,11 @@ public class IpAddressService {
     private IpAddressDao ipAddressDao;
 
     public void save(IpAddress ipAddress) {
-        ipAddressDao.save(ipAddress);
+        try {
+            ipAddressDao.save(ipAddress);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

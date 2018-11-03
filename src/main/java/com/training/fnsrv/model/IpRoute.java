@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Getter
 @ToString
-@Entity
+//@Entity
 @Table(name = "ip_route")
 public class IpRoute extends GenModel {
     @Id

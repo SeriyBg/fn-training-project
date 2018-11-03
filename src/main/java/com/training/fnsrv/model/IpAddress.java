@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Getter
 @ToString
-@Entity
+//@Entity
 @Table(name = "ip_address")
 public class IpAddress extends GenModel {
     @Id

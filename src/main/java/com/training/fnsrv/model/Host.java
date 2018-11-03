@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @ToString
-@Entity
+//@Entity
 @Table(name = "host")
 public class Host extends GenModel {
     @Id

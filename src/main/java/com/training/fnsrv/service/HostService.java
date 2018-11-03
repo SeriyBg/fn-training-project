@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.dao.HostDao;
+import com.training.fnsrv.dao.InMemoryHostDao;
 import com.training.fnsrv.model.*;
 import com.training.fnsrv.task.HostTask;
 import com.training.fnsrv.task.TaskExecutor;
@@ -17,7 +17,7 @@ public class HostService {
     @Getter
     private TaskExecutor taskExecutor;
     @Autowired
-    private HostDao hostDao;
+    private /*HostDao*/InMemoryHostDao hostDao;
     @Autowired
     private IpInterfaceService ipInterfaceService;
     @Autowired

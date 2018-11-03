@@ -4,6 +4,7 @@ import com.training.fnsrv.dao.HostDao;
 import com.training.fnsrv.model.*;
 import com.training.fnsrv.task.HostTask;
 import com.training.fnsrv.task.TaskExecutor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 public class HostService {
     @Autowired
+    @Getter
     private TaskExecutor taskExecutor;
     @Autowired
     private HostDao hostDao;

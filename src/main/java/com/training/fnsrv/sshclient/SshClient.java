@@ -39,7 +39,7 @@ public class SshClient {
             session.setConfig(config);
 
             session.connect();
-            log.info(String.format("sshClient connected '%s' by '%s'", user, host));
+            log.info(String.format("sshClient connected to '%s' by '%s'", host, user));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -54,6 +54,7 @@ public class SshClient {
             e.printStackTrace();
         }
 
+        log.info(String.format("sshClient exec command '%s'", cmd));
         ((ChannelExec)channel).setCommand(cmd);
         channel.setInputStream(null);
         ((ChannelExec)channel).setErrStream(System.err);
@@ -79,5 +80,6 @@ public class SshClient {
 
     public void disconnect() {
         session.disconnect();
+        log.info(String.format("sshClient disconnect"));
     }
 }

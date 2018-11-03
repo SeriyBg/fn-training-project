@@ -58,7 +58,14 @@ public class IpRouteTask extends Task {
             hostTask.getHostBuilder().
                     ipRoutes(routeTableLine.build());
         }
-        hostTask.getHostService().
-                save(hostTask.getHostBuilder().build());
+        log.info(String.format("Finish ipRouteTask with id='%d'", getId()));
+        hostTask.done();
+    }
+
+    public void run() {
+        log.info(String.format("Running ipRouteTask with id='%d'", getId()));
+        hostTask.getSsh().connect();
+        hostTask.getSsh().exec(getCmd(), this);
+        hostTask.getSsh().disconnect();
     }
 }

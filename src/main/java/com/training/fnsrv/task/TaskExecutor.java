@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Component
 @Log
 public class TaskExecutor {
-    private static Long ids = 0L;
     private final ThreadPoolExecutor executor;
 
     public TaskExecutor() {
@@ -19,7 +18,7 @@ public class TaskExecutor {
     }
 
     public Task executeTask(Task task) {
-        log.info(String.format("Got new Task: id=%s", task.getId()));
+        log.info(String.format("Got new Task: id='%s'", task.getId()));
 
         task.setStatus(TaskStatus.INPROGRESS);
         executor.execute(task);
@@ -29,10 +28,5 @@ public class TaskExecutor {
 
     public void stopTasks() {
         executor.shutdown();
-    }
-
-    //TODO: generate reqID from timeStamp. Move this logic.
-    public static Long genNewTaskId() {
-        return ++ids;
     }
 }

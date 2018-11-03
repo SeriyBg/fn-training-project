@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
 @Log
 public class IpInterfaceTask extends Task {
     private HostTask hostTask;
-    private final String COMMAND = "ifconfig";
-    private final String NAME_PATTERN = "^[\\w]+";
-    private final String MAC_PATTERN = "HWaddr\\s+([0-9a-fA-F:-]+)";
-    private final String IPADDR_PATTERN = "inet addr:([0-9.]+)";
-    private final String NETMASK_PATTERN = "Mask:([0-9.]+)";
-    private final String MTU_PATTERN = "MTU:([0-9.]+)";
+    private static final String COMMAND = "ifconfig";
+    private static final Pattern NAME_PATTERN = Pattern.compile("^[\\w]+");
+    private static final Pattern MAC_PATTERN = Pattern.compile("HWaddr\\s+([0-9a-fA-F:-]+)");
+    private static final Pattern IPADDR_PATTERN = Pattern.compile("inet addr:([0-9.]+)");
+    private static final Pattern NETMASK_PATTERN = Pattern.compile("Mask:([0-9.]+)");
+    private static final Pattern MTU_PATTERN = Pattern.compile("MTU:([0-9.]+)");
 
     IpInterfaceTask(Long id, HostTask hostTask) {
         this.hostTask = hostTask;
@@ -26,14 +26,7 @@ public class IpInterfaceTask extends Task {
     }
 
     public void collect(InputStream inputStream) {
-        //TODO: make this patterns static final;
-        Pattern namePattern = Pattern.compile(NAME_PATTERN);
-        Pattern macPattern = Pattern.compile(MAC_PATTERN);
-        Pattern ipaddrPattern = Pattern.compile(IPADDR_PATTERN);
-        Pattern netmaskPattern = Pattern.compile(NETMASK_PATTERN);
-        Pattern mtuPattern = Pattern.compile(MTU_PATTERN);
         Matcher matcher;
-
         IpInterface.Builder intf = new IpInterface.Builder();
         IpAddress.Builder ipaddr = new IpAddress.Builder();
 
@@ -44,7 +37,7 @@ public class IpInterfaceTask extends Task {
 
             if (intf.getName() == null) {
 
-                matcher = namePattern.matcher(line);
+                matcher = NAME_PATTERN.matcher(line);
                 if (matcher.find()) {
                     /* Skip localhost interface */
                     if (matcher.group(0).equals("lo")) {
@@ -55,14 +48,14 @@ public class IpInterfaceTask extends Task {
             }
 
             if (intf.getName() != null && intf.getMacAddress() == null) {
-                matcher = macPattern.matcher(line);
+                matcher = MAC_PATTERN.matcher(line);
                 if (matcher.find()) {
                     intf.macAddress(matcher.group(1));
                 }
             }
 
             if (intf.getMacAddress() != null && ipaddr.getAddr() == null) {
-                matcher = ipaddrPattern.matcher(line);
+                matcher = IPADDR_PATTERN.matcher(line);
                 if (matcher.find()) {
                     ipaddr.addr(matcher.group(1));
                 }
@@ -70,14 +63,14 @@ public class IpInterfaceTask extends Task {
 
             /* Don't save netmask in case in interface doesn't have IPv4 address */
             if (ipaddr.getAddr() != null && ipaddr.getNetmask() == null) {
-                matcher = netmaskPattern.matcher(line);
+                matcher = NETMASK_PATTERN.matcher(line);
                 if (matcher.find()) {
                     ipaddr.netmask(matcher.group(1));
                 }
             }
 
             if (intf.getMacAddress() != null && intf.getMTU() == 0) {
-                matcher = mtuPattern.matcher(line);
+                matcher = MTU_PATTERN.matcher(line);
                 if (matcher.find()) {
                     intf.MTU(Integer.parseInt(matcher.group(1)));
                 }

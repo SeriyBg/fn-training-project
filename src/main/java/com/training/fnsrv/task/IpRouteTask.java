@@ -10,8 +10,8 @@ import java.util.Scanner;
 @Log
 public class IpRouteTask extends Task {
     private HostTask hostTask;
-    private final String COMMAND = "route";
-    private final int TOKEN_NUM = 8;
+    private final static String COMMAND = "route";
+    private final static int TOKEN_NUM = 8;
 
     IpRouteTask(Long id, HostTask hostTask) {
         this.hostTask = hostTask;

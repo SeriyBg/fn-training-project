@@ -1,0 +1,93 @@
+  {
+    "id": 1,
+    "requestId": 1541404446661,
+    "ipAddress": "127.0.0.1",
+    "user": "okolka",
+    "password": "jnjnuh",
+    "ipInterfaces": [
+      {
+        "id": 1,
+        "name": "enp0s31f6",
+        "macAddress": "fc:3f:db:87:7b:27",
+        "ipAddress": {
+          "id": 1,
+          "addr": "null",
+          "netmask": "null"
+        },
+        "mtu": 1500
+      },
+      {
+        "id": 1,
+        "name": "wlp1s0",
+        "macAddress": "44:85:00:20:2e:0c",
+        "ipAddress": {
+          "id": 1,
+          "addr": "192.168.1.102",
+          "netmask": "255.255.255.0"
+        },
+        "mtu": 1500
+      }
+    ],
+    "ipRoutes": [
+      {
+        "id": 1,
+        "destination": "default",
+        "gateway": "192.168.1.100",
+        "genmask": "0.0.0.0",
+        "flags": "UG",
+        "metric": 600,
+        "refs": 0,
+        "iface": {
+          "id": 1,
+          "name": "wlp1s0",
+          "macAddress": "44:85:00:20:2e:0c",
+          "ipAddress": {
+            "id": 1,
+            "addr": "192.168.1.102",
+            "netmask": "255.255.255.0"
+          },
+          "mtu": 1500
+        }
+      },
+      {
+        "id": 1,
+        "destination": "link-local",
+        "gateway": "*",
+        "genmask": "255.255.0.0",
+        "flags": "U",
+        "metric": 1000,
+        "refs": 0,
+        "iface": {
+          "id": 1,
+          "name": "wlp1s0",
+          "macAddress": "44:85:00:20:2e:0c",
+          "ipAddress": {
+            "id": 1,
+            "addr": "192.168.1.102",
+            "netmask": "255.255.255.0"
+          },
+          "mtu": 1500
+        }
+      },
+      {
+        "id": 1,
+        "destination": "192.168.1.0",
+        "gateway": "*",
+        "genmask": "255.255.255.0",
+        "flags": "U",
+        "metric": 600,
+        "refs": 0,
+        "iface": {
+          "id": 1,
+          "name": "wlp1s0",
+          "macAddress": "44:85:00:20:2e:0c",
+          "ipAddress": {
+            "id": 1,
+            "addr": "192.168.1.102",
+            "netmask": "255.255.255.0"
+          },
+          "mtu": 1500
+        }
+      }
+    ]
+  }

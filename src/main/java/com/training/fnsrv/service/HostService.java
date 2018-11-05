@@ -61,6 +61,7 @@ public class HostService {
         return hosts;
     }
 
+    //TODO: check for null Exception in case if some field equals to null
     public HostProto.Host protoSerializeById(Long id) {
         HostProto.Host.Builder hostProto = HostProto.Host.newBuilder();
 

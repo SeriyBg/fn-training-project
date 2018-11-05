@@ -17,7 +17,7 @@ public class IpInterface extends GenModel {
     private String macAddress;
     @OneToOne
     private IpAddress ipAddress;
-    private int MTU;
+    private int mtu;
 
     public IpInterface() {}
 
@@ -25,7 +25,7 @@ public class IpInterface extends GenModel {
         name = builder.name;
         macAddress = builder.macAddress;
         ipAddress = builder.ipAddress;
-        MTU = builder.MTU;
+        mtu = builder.MTU;
     }
 
     public static class Builder {

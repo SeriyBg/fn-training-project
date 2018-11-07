@@ -1,5 +1,6 @@
 package com.training.fnsrv.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode
 @Getter
 @ToString
 //@Entity

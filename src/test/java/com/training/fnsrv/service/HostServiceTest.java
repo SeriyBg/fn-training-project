@@ -62,7 +62,6 @@ public class HostServiceTest {
 
         Host deserializeProtoHost = hostService.protoDeserialize(hostProto);
 
-        //TODO: implement Host.equals() method
         assertEquals("Host object is not the same after ProtoBuf serialization/deserialization",
                 testHost, deserializeProtoHost);
     }
@@ -73,7 +72,6 @@ public class HostServiceTest {
 
         Host deserializeProtoHost = hostService.protoDeserialize(hostProto);
 
-        //TODO: implement Host.equals() method
         assertEquals("Host object is not the same after ProtoBuf serialization/deserialization",
                 testHost, deserializeProtoHost);
     }

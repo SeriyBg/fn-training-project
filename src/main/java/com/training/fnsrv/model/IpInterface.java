@@ -1,10 +1,12 @@
 package com.training.fnsrv.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode
 @Getter
 @ToString
 //@Entity

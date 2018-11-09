@@ -5,8 +5,9 @@ import com.training.fnsrv.model.IpInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class IpInterfaceService {
@@ -26,10 +27,7 @@ public class IpInterfaceService {
     }
 
     public List<IpInterface> getAll() {
-        List<IpInterface> intfList = new ArrayList<>();
-        for (IpInterface intf : ipInterfaceDao.findAll()) {
-            intfList.add(intf);
-        }
-        return intfList;
+        return StreamSupport.stream(ipInterfaceDao.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

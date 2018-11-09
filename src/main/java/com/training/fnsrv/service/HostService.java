@@ -11,8 +11,9 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class HostService {
@@ -53,12 +54,8 @@ public class HostService {
     }
 
     public List<Host> getAll() {
-        List<Host> hosts = new ArrayList<>();
-        for (Host host : hostDao.findAll()) {
-            hosts.add(host);
-        }
-
-        return hosts;
+        return StreamSupport.stream(hostDao.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     //TODO: check for null Exception in case if some field equals to null

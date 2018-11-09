@@ -20,12 +20,10 @@ public class IpRouteTask extends Task {
     }
 
     private IpInterface getIpInterfaceByName(String name) {
-        for (IpInterface intf : hostTask.getHostBuilder().getIpInterfaces()) {
-            if (intf.getName().equals(name)) {
-                return intf;
-            }
-        }
-        return null;
+        return hostTask.getHostBuilder().getIpInterfaces().stream()
+                .filter(intf -> intf.getName().equals(name))
+                .findFirst()
+                .get();
     }
 
     public void collect(InputStream inputStream) {

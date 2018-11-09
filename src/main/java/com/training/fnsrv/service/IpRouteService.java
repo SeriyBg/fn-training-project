@@ -5,8 +5,9 @@ import com.training.fnsrv.model.IpRoute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class IpRouteService {
@@ -23,10 +24,7 @@ public class IpRouteService {
     }
 
     public List<IpRoute> getAll() {
-        List<IpRoute> routeList = new ArrayList<>();
-        for (IpRoute route : ipRouteDao.findAll()) {
-            routeList.add(route);
-        }
-        return routeList;
+        return StreamSupport.stream(ipRouteDao.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

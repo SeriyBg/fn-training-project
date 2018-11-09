@@ -1,5 +1,6 @@
-package com.training.fnsrv.dao;
+package com.training.fnsrv.dao.inmemory;
 
+import com.training.fnsrv.dao.HostDao;
 import com.training.fnsrv.model.Host;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.dao.InMemoryIpRouteDao;
+import com.training.fnsrv.dao.inmemory.InMemoryIpRouteDao;
 import com.training.fnsrv.model.IpRoute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

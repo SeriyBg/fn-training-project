@@ -1,6 +1,6 @@
 package com.training.fnsrv.service;
 
-import com.training.fnsrv.dao.InMemoryIpInterfaceDao;
+import com.training.fnsrv.dao.inmemory.InMemoryIpInterfaceDao;
 import com.training.fnsrv.model.IpInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

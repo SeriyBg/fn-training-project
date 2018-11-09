@@ -1,5 +1,6 @@
-package com.training.fnsrv.dao;
+package com.training.fnsrv.dao.inmemory;
 
+import com.training.fnsrv.dao.IpAddressDao;
 import com.training.fnsrv.model.IpAddress;
 import org.springframework.stereotype.Component;
 

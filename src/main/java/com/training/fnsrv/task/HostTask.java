@@ -24,12 +24,6 @@ public class HostTask extends Task {
         ssh = new SshClient(hostReq.getAddr(), hostReq.getUser(), hostReq.getPassword());
     }
 
-    public void done() {
-        hostService.save(hostBuilder.build());
-        setStatus(TaskStatus.DONE);
-        log.info(String.format("Done HostTask with id='%d'", getId()));
-    }
-
     @Override
     public void run() {
         log.info(String.format("Running HostTask with id='%d'", getId()));
@@ -40,6 +34,13 @@ public class HostTask extends Task {
                 password(hostReq.getPassword());
 
         IpInterfaceTask ipInterfaceTask = new IpInterfaceTask(getId(), this);
-        hostService.getTaskExecutor().executeTask(ipInterfaceTask);
+        ipInterfaceTask.run();
+
+        IpRouteTask ipRouteTask = new IpRouteTask(getId(), this);
+        ipRouteTask.run();
+
+        hostService.save(hostBuilder.build());
+        setStatus(TaskStatus.DONE);
+        log.info(String.format("Done HostTask with id='%d'", getId()));
     }
 }

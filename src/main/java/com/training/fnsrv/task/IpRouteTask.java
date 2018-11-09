@@ -59,7 +59,6 @@ public class IpRouteTask extends Task {
                     ipRoutes(routeTableLine.build());
         }
         log.info(String.format("Finish ipRouteTask with id='%d'", getId()));
-        hostTask.done();
     }
 
     public void run() {

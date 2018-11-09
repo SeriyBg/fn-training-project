@@ -25,11 +25,6 @@ public class IpInterfaceTask extends Task {
         setCmd(COMMAND);
     }
 
-    private void runNextTask() {
-        IpRouteTask ipRouteTask = new IpRouteTask(hostTask.getId(), hostTask);
-        hostTask.getHostService().getTaskExecutor().executeTask(ipRouteTask);
-    }
-
     public void collect(InputStream inputStream) {
         Matcher matcher;
         IpInterface.Builder intf = new IpInterface.Builder();
@@ -91,7 +86,6 @@ public class IpInterfaceTask extends Task {
             }
         }
         log.info(String.format("Finish ipInterfaceTask with id='%d'", getId()));
-        runNextTask();
     }
 
     public void run() {

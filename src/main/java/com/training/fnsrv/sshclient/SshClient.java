@@ -19,7 +19,7 @@ public class SshClient {
     private String host;
     private String user;
     private String password;
-    private final int PORT = 22;
+    private static final int PORT = 22;
 
     public SshClient(String host, String user, String password) {
         this.host = host;

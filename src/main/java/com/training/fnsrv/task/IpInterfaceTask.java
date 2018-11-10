@@ -14,10 +14,10 @@ public class IpInterfaceTask extends Task {
     private HostTask hostTask;
     private static final String COMMAND = "ifconfig";
     private static final Pattern NAME_PATTERN = Pattern.compile("^[\\w]+");
-    private static final Pattern MAC_PATTERN = Pattern.compile("HWaddr\\s+([0-9a-fA-F:-]+)");
-    private static final Pattern IPADDR_PATTERN = Pattern.compile("inet addr:([0-9.]+)");
-    private static final Pattern NETMASK_PATTERN = Pattern.compile("Mask:([0-9.]+)");
-    private static final Pattern MTU_PATTERN = Pattern.compile("MTU:([0-9.]+)");
+    private static final Pattern MAC_PATTERN = Pattern.compile("HWaddr\\s+(?<mac>([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})");
+    private static final Pattern IPADDR_PATTERN = Pattern.compile("inet addr:(?<ipaddr>([0-9]{1,3}.){3}[0-9]{1,3})");
+    private static final Pattern NETMASK_PATTERN = Pattern.compile("Mask:(?<netmask>([0-9]{1,3}.){3}[0-9]{1,3})");
+    private static final Pattern MTU_PATTERN = Pattern.compile("MTU:(?<mtu>[0-9.]+)");
 
     IpInterfaceTask(Long id, HostTask hostTask) {
         this.hostTask = hostTask;
@@ -40,24 +40,24 @@ public class IpInterfaceTask extends Task {
                 matcher = NAME_PATTERN.matcher(line);
                 if (matcher.find()) {
                     /* Skip localhost interface */
-                    if (matcher.group(0).equals("lo")) {
+                    if (matcher.group().equals("lo")) {
                         continue;
                     }
-                    intf.name(matcher.group(0));
+                    intf.name(matcher.group());
                 }
             }
 
             if (intf.getName() != null && intf.getMacAddress() == null) {
                 matcher = MAC_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    intf.macAddress(matcher.group(1));
+                    intf.macAddress(matcher.group("mac"));
                 }
             }
 
             if (intf.getMacAddress() != null && ipaddr.getAddr() == null) {
                 matcher = IPADDR_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    ipaddr.addr(matcher.group(1));
+                    ipaddr.addr(matcher.group("ipaddr"));
                 }
             }
 
@@ -65,14 +65,14 @@ public class IpInterfaceTask extends Task {
             if (ipaddr.getAddr() != null && ipaddr.getNetmask() == null) {
                 matcher = NETMASK_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    ipaddr.netmask(matcher.group(1));
+                    ipaddr.netmask(matcher.group("netmask"));
                 }
             }
 
             if (intf.getMacAddress() != null && intf.getMTU() == 0) {
                 matcher = MTU_PATTERN.matcher(line);
                 if (matcher.find()) {
-                    intf.MTU(Integer.parseInt(matcher.group(1)));
+                    intf.MTU(Integer.parseInt(matcher.group("mtu")));
                 }
             }
 

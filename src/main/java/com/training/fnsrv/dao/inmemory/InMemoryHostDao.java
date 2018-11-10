@@ -5,8 +5,10 @@ import com.training.fnsrv.model.Host;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class InMemoryHostDao implements HostDao {
@@ -18,19 +20,28 @@ public class InMemoryHostDao implements HostDao {
         return host;
     }
 
+    /*TODO: implement this method */
     @Override
-    public <S extends Host> List<S> saveAll(Iterable<S> hosts) {
+    public <S extends Host> Iterable<S> saveAll(Iterable<S> newHosts) {
+        /*
+        hosts.addAll(
+                StreamSupport.stream(newHosts.spliterator(), false)
+                        .collect(Collectors.toList())
+        );
+        */
         return null;
     }
 
     @Override
     public Optional<Host> findById(Long id) {
-        return null;
+        return hosts.stream()
+                .filter(host -> host.getId() == id)
+                .findFirst();
     }
 
     @Override
     public boolean existsById(Long id) {
-        return true;
+        return findById(id).isPresent();
     }
 
     @Override
@@ -40,23 +51,48 @@ public class InMemoryHostDao implements HostDao {
 
     @Override
     public Iterable<Host> findAllById(Iterable<Long> ids) {
-        return null;
+        return hosts.stream()
+                .filter(host -> {
+                    for (Long id : ids) {
+                        if (host.getId() == id) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
     public long count() {
-        return 0L;
+        return hosts.size();
     }
 
     @Override
-    public void deleteById(Long id) { }
+    public void deleteById(Long id) {
+        for (Iterator<Host> iter = hosts.iterator(); iter.hasNext(); ) {
+            Host host = iter.next();
+            if (host.getId() == id) {
+                iter.remove();
+                break;
+            }
+        }
+    }
 
     @Override
-    public void delete(Host host) { }
+    public void delete(Host host) {
+        deleteById(host.getId());
+    }
 
     @Override
-    public void deleteAll(Iterable<? extends Host> hosts) { }
+    public void deleteAll(Iterable<? extends Host> iterHosts) {
+        for (Host host : iterHosts) {
+            deleteById(host.getId());
+        }
+    }
 
     @Override
-    public void deleteAll() { }
+    public void deleteAll() {
+        hosts.clear();
+    }
 }

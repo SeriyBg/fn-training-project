@@ -58,6 +58,10 @@ public class HostService {
                 .collect(Collectors.toList());
     }
 
+    public void remove(Host host) {
+        hostDao.delete(host);
+    }
+
     //TODO: check for null Exception in case if some field equals to null
     public HostProto.Host protoSerializeById(Long id) {
         HostProto.Host.Builder hostProto = HostProto.Host.newBuilder();

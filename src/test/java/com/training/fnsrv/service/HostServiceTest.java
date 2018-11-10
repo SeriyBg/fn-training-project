@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.training.fnsrv.model.Host;
 import com.training.fnsrv.protobuff.gen.HostProto;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,12 +77,10 @@ public class HostServiceTest {
                 testHost, deserializeProtoHost);
     }
 
-    /*
     @After
     public void hostDeleteByIdServiceTest() {
-
+        hostService.remove(testHost);
     }
-    */
 }
 
 

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.protobuf.util.JsonFormat;
 import com.training.fnsrv.dao.inmemory.InMemoryHostDao;
 import com.training.fnsrv.model.*;
-import com.training.fnsrv.protobuff.gen.HostProto;
+import com.training.proto.gen.HostProto;
 import com.training.fnsrv.task.HostTask;
 import com.training.fnsrv.task.TaskExecutor;
 import lombok.Getter;

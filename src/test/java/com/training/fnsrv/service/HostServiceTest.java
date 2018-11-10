@@ -3,7 +3,7 @@ package com.training.fnsrv.service;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.training.fnsrv.model.Host;
-import com.training.fnsrv.protobuff.gen.HostProto;
+import com.training.proto.gen.HostProto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package gen;
-option java_package = "com.training.fnsrv.protobuff.gen";
+option java_package = "com.training.proto.gen";
 
 message Host {
     int64 id = 1;

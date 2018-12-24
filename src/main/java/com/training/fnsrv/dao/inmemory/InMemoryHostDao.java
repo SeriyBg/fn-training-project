@@ -39,6 +39,14 @@ public class InMemoryHostDao implements HostDao {
                 .findFirst();
     }
 
+    public Optional<Host> findByRequestId(Long reqId) {
+        Optional<Host> h = hosts.stream()
+                .filter(host -> host.getRequestId().equals(reqId))
+                .findFirst();
+
+        return h;
+    }
+
     @Override
     public boolean existsById(Long id) {
         return findById(id).isPresent();

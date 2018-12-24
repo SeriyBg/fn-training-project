@@ -24,4 +24,9 @@ public class HostController {
     public List<Host> getAllHosts() {
         return hostService.getAll();
     }
+
+    @RequestMapping(value = "/host/{id}", method = RequestMethod.GET)
+    public Host getHost(@PathVariable("id") long hostId) {
+        return hostService.getByRequestId(hostId);
+    }
 }

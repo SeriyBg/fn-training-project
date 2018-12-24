@@ -58,6 +58,14 @@ public class HostService {
                 .collect(Collectors.toList());
     }
 
+    public Host getById(Long id) {
+        return hostDao.findById(id).get();
+    }
+
+    public Host getByRequestId(Long id) {
+        return hostDao.findByRequestId(id).get();
+    }
+
     public void remove(Host host) {
         hostDao.delete(host);
     }

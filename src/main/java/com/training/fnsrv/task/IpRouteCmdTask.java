@@ -19,8 +19,11 @@ public class IpRouteCmdTask extends Task {
         routeCmd = cmd;
         ipRouteService = service;
 
-        //TODO: remove hardcoded parameters
-        ssh = new SshClient(cmd.getRemoteHostIp(), "root", "jnjnuh");
+        ssh = new SshClient(
+                cmd.getHostRequest().getAddr(),
+                cmd.getHostRequest().getUser(),
+                cmd.getHostRequest().getPassword()
+        );
     }
 
     private String formRouteCommand(RouteCmd cmd) {

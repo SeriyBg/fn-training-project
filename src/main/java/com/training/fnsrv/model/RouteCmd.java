@@ -9,6 +9,6 @@ public class RouteCmd {
     private String routingIp;
     private String netmask;
     private String gatewayIp;
-    private String remoteHostIp;
+    private HostRequest hostRequest;
 }
 

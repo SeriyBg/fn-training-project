@@ -5,6 +5,7 @@ import com.training.fnsrv.model.HostRequest;
 import com.training.fnsrv.model.HostResponse;
 import com.training.fnsrv.service.HostService;
 
+import com.training.proto.gen.HostProto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class HostController {
     }
 
     @RequestMapping(value = "/host/{id}", method = RequestMethod.GET)
-    public Host getHost(@PathVariable("id") long hostId) {
-        return hostService.getByRequestId(hostId);
+    public HostProto.Host getHost(@PathVariable("id") long hostId) {
+        return hostService.protoSerializeViaJsonById(hostId);
     }
 }

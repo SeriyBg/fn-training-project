@@ -16,7 +16,7 @@ import java.util.List;
 public class Host extends GenModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id = 1L;
     private Long requestId;
     private String ipAddress;
     private String user;

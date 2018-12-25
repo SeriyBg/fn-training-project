@@ -133,16 +133,12 @@ public class HostService {
     public HostProto.Host protoSerializeViaJsonById(Long id) {
         HostProto.Host.Builder hostProto = HostProto.Host.newBuilder();
 
-        for (Host host : hostDao.findAll()) {
-            if (host.getRequestId() == id) {
-                try {
-                    JsonFormat.parser().merge((new Gson()).toJson(host), hostProto);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
+        Host host = getByRequestId(id);
+        try {
+            JsonFormat.parser().merge((new Gson()).toJson(host), hostProto);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
         return hostProto.build();
